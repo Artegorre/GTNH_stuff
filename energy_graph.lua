@@ -21,6 +21,9 @@ local fuel_bar = charts.Container{
     width = bar_width,
     height = bar_height
 }
+local fuel_bar_G = charts.ProgressBar{
+}
+fuel_bar.payload = fuel_bar_G
 
 local fuel_long = charts.Container{
     x = short_spacing,
@@ -46,6 +49,9 @@ local fuel_long_delta = charts.Container{
     width = graph_width,
     height = graph_height
 }
+local fuel_long_delta_G = charts.Histogram {
+}
+fuel_long_delta.payload = fuel_long_delta_G
 
 
 local fuel_short = charts.Container{
@@ -55,6 +61,9 @@ local fuel_short = charts.Container{
     width = graph_width,
     height = graph_height
 }
+local fuel_short_G = charts.Histogram {
+}
+fuel_short.payload = fuel_short_G
 
 
 local fuel_short_delta = charts.Container{
@@ -64,6 +73,9 @@ local fuel_short_delta = charts.Container{
     width = graph_width,
     height = graph_height
 }
+local fuel_short_delta_G = charts.Histogram {
+}
+fuel_short_delta.payload = fuel_short_delta_G
 
 -- EU graphs
 
@@ -74,6 +86,9 @@ local EU_bar = charts.Container{
     width = bar_width,
     height = bar_height
 }
+local EU_bar_G = charts.ProgressBar{
+}
+EU_bar.payload = EU_bar_G
 
 local EU_long = charts.Container{
     x = 2 * short_spacing + 2 * graph_width + long_spacing,
@@ -82,6 +97,9 @@ local EU_long = charts.Container{
     width = graph_width,
     height = graph_height
 }
+local EU_long_G = charts.Histogram {
+}
+EU_long.payload = EU_long_G
 
 
 local EU_long_delta = charts.Container{
@@ -91,6 +109,9 @@ local EU_long_delta = charts.Container{
     width = graph_width,
     height = graph_height
 }
+local EU_long_delta_G = charts.Histogram {
+}
+EU_long_delta.payload = EU_long_delta_G
 
 
 local EU_short = charts.Container{
@@ -100,6 +121,9 @@ local EU_short = charts.Container{
     width = graph_width,
     height = graph_height
 }
+local EU_short_G = charts.Histogram {
+}
+EU_short.payload = EU_short_G
 
 
 local EU_short_delta = charts.Container{
@@ -109,6 +133,9 @@ local EU_short_delta = charts.Container{
     width = graph_width,
     height = graph_height
 }
+local EU_short_delta_G = charts.Histogram {
+}
+EU_short_delta.payload = EU_short_delta_G
 
 -- draw 
 
