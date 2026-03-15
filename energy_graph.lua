@@ -162,17 +162,22 @@ containers["EU_short_delta"] = EU_short_delta
 graphs["EU_short_delta"] = EU_short_delta_G
 
 
--- draw 
+-- update and draw 
 term.clear()
 
 while 1 do
-    table.insert(fuel_long_G.values, component.transposer.getTankLevel(tank_face))
+    -- update every 10 minutes
+    table.insert(graphs["fuel_long"].values, component.transposer.getTankLevel(tank_face))
+
+
+    for i=1,60,1 do
+        -- update every 10 seconds
+        table.insert(graphs["fuel_short"].values, component.transposer.getTankLevel(tank_face))
     
-    -- stock containers and graphs in maps to do that more efficiently
-    for k,v in containers do
-        v:draw()
+        -- draw
+        for k,v in pairs(containers) do
+            v:draw()
+        end
+        os.sleep(10)
     end
-
-
-    os.sleep(.05)
 end
