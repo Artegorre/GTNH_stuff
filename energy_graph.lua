@@ -1,5 +1,6 @@
 local charts = require("charts")
 local component = require("component")
+local term = require("term")
 
 -- parameters
 local tank_face = 5
@@ -11,9 +12,12 @@ local long_spacing = 12
 local bar_width = 2 * graph_width + short_spacing
 local bar_height = 8
 
+
+-- variables
+local containers = {}
+local graphs = {}
+
 -- fuel graphs
-
-
 local fuel_bar = charts.Container{
     x = short_spacing,
     y = short_spacing,
@@ -24,6 +28,8 @@ local fuel_bar = charts.Container{
 local fuel_bar_G = charts.ProgressBar{
 }
 fuel_bar.payload = fuel_bar_G
+containers["fuel_bar"] = fuel_bar
+graphs["fuel_bar"] = fuel_bar_G
 
 local fuel_long = charts.Container{
     x = short_spacing,
@@ -33,13 +39,15 @@ local fuel_long = charts.Container{
     height = graph_height
 }
 local fuel_long_G = charts.Histogram {
-    max = 41472000, -- change dinamically
+    max = component.transposer.getTankCapacity(tank_face),
     align = charts.sides.RIGHT,
     colorFunc = function(index, norm, value, self, contrainer)
         return 0x20ff20
     end
 }
 fuel_long.payload = fuel_long_G
+containers["fuel_long"] = fuel_long
+graphs["fuel_long"] = fuel_long_G
 
 
 local fuel_long_delta = charts.Container{
@@ -52,6 +60,8 @@ local fuel_long_delta = charts.Container{
 local fuel_long_delta_G = charts.Histogram {
 }
 fuel_long_delta.payload = fuel_long_delta_G
+containers["fuel_long_delta"] = fuel_long_delta
+graphs["fuel_long_delta"] = fuel_long_delta_G
 
 
 local fuel_short = charts.Container{
@@ -64,6 +74,8 @@ local fuel_short = charts.Container{
 local fuel_short_G = charts.Histogram {
 }
 fuel_short.payload = fuel_short_G
+containers["fuel_short"] = fuel_short
+graphs["fuel_short"] = fuel_short_G
 
 
 local fuel_short_delta = charts.Container{
@@ -76,9 +88,11 @@ local fuel_short_delta = charts.Container{
 local fuel_short_delta_G = charts.Histogram {
 }
 fuel_short_delta.payload = fuel_short_delta_G
+containers["fuel_short_delta"] = fuel_short_delta
+graphs["fuel_short_delta"] = fuel_short_delta_G
+
 
 -- EU graphs
-
 local EU_bar = charts.Container{
     x = 2 * short_spacing + 2 * graph_width + long_spacing,
     y = short_spacing,
@@ -89,6 +103,8 @@ local EU_bar = charts.Container{
 local EU_bar_G = charts.ProgressBar{
 }
 EU_bar.payload = EU_bar_G
+containers["EU_bar"] = EU_bar
+graphs["EU_bar"] = EU_bar_G
 
 local EU_long = charts.Container{
     x = 2 * short_spacing + 2 * graph_width + long_spacing,
@@ -100,6 +116,8 @@ local EU_long = charts.Container{
 local EU_long_G = charts.Histogram {
 }
 EU_long.payload = EU_long_G
+containers["EU_long"] = EU_long
+graphs["EU_long"] = EU_long_G
 
 
 local EU_long_delta = charts.Container{
@@ -112,6 +130,8 @@ local EU_long_delta = charts.Container{
 local EU_long_delta_G = charts.Histogram {
 }
 EU_long_delta.payload = EU_long_delta_G
+containers["EU_long_delta"] = EU_long_delta
+graphs["EU_long_delta"] = EU_long_delta_G
 
 
 local EU_short = charts.Container{
@@ -124,6 +144,8 @@ local EU_short = charts.Container{
 local EU_short_G = charts.Histogram {
 }
 EU_short.payload = EU_short_G
+containers["EU_short"] = EU_short
+graphs["EU_short"] = EU_short_G
 
 
 local EU_short_delta = charts.Container{
@@ -136,23 +158,20 @@ local EU_short_delta = charts.Container{
 local EU_short_delta_G = charts.Histogram {
 }
 EU_short_delta.payload = EU_short_delta_G
+containers["EU_short_delta"] = EU_short_delta
+graphs["EU_short_delta"] = EU_short_delta_G
+
 
 -- draw 
+term.clear()
 
 while 1 do
     table.insert(fuel_long_G.values, component.transposer.getTankLevel(tank_face))
     
     -- stock containers and graphs in maps to do that more efficiently
-    fuel_bar:draw()
-    fuel_long:draw()
-    fuel_long_delta:draw()
-    fuel_short:draw()
-    fuel_short_delta:draw()
-    EU_bar:draw()
-    EU_long:draw()
-    EU_long_delta:draw()
-    EU_short:draw()
-    EU_short_delta:draw()
+    for k,v in containers do
+        v:draw()
+    end
 
 
     os.sleep(.05)
