@@ -26,6 +26,10 @@ local fuel_bar = charts.Container{
     height = bar_height
 }
 local fuel_bar_G = charts.ProgressBar{
+    max = component.transposer.getTankCapacity(tank_face),
+    colorFunc = function(index, norm, value, self, contrainer)
+        return 0x20ff20
+    end
 }
 fuel_bar.payload = fuel_bar_G
 containers["fuel_bar"] = fuel_bar
@@ -72,6 +76,11 @@ local fuel_short = charts.Container{
     height = graph_height
 }
 local fuel_short_G = charts.Histogram {
+    max = component.transposer.getTankCapacity(tank_face),
+    align = charts.sides.RIGHT,
+    colorFunc = function(index, norm, value, self, contrainer)
+        return 0x20ff20
+    end
 }
 fuel_short.payload = fuel_short_G
 containers["fuel_short"] = fuel_short
@@ -173,6 +182,7 @@ while 1 do
     for i=1,60,1 do
         -- update every 10 seconds
         table.insert(graphs["fuel_short"].values, component.transposer.getTankLevel(tank_face))
+        graphs["fuel_bar"].value = component.transposer.getTankLevel(tank_face)
     
         -- draw
         for k,v in pairs(containers) do
